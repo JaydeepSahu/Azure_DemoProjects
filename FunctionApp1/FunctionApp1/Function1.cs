@@ -14,10 +14,15 @@ public class Function1
         _logger = logger;
     }
 
-    [Function("Function1")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
+    [Function("Hello")]
+    public IActionResult Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req,
+        string name)
     {
         _logger.LogInformation("C# HTTP trigger function processed a request.");
-        return new OkObjectResult("Welcome to Azure Functions!");
+        var message = string.IsNullOrEmpty(name)
+            ? "Welcome to Azure Functions!"
+            : $"Hello, {name}! Welcome to Azure Functions!";
+        return new OkObjectResult(message);
     }
 }
